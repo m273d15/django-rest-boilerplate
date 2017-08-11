@@ -1,0 +1,10 @@
+version: '2.1'
+services:
+  example-client:
+    build: oidc_client_example
+    environment:
+    - CLIENT_ID
+    - REDIRECT_URL
+    - AUTHORITY_URL   
+    ports:
+    - "3000:3000"
