@@ -1,0 +1,24 @@
+language: node_js
+sudo: required
+
+node_js:
+- "node"
+
+services:
+- docker
+
+env:
+- NODE_TLS_REJECT_UNAUTHORIZED=0
+
+before_install:
+  - mkdir certs
+  - chmod +x init_ci.sh
+  - ./init_ci.sh
+
+script:
+  - docker-compose up --build --force-recreate -d
+  - sleep 20
+  - wget --no-check-certificate https://eid.local
+  - docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build test-e2e
+  - docker-compose down
+  - exit $(docker ps -a -f exited=1 -q | wc -l | tr -d ' ')
