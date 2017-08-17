@@ -2,7 +2,7 @@
 cd /root
 python process_tmpl.py
 
-mkdir server
+mkdir -p server
 mv index.html server/
 
 cd server

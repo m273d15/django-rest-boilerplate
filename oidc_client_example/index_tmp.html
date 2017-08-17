@@ -17,10 +17,22 @@
     <!-- Use JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <!-- Use JS OpenID library -->
-    <script src="https://rawgit.com/IdentityModel/oidc-client-js/dev/dist/oidc-client.min.js"></script>
+    <script src="https://cdn.rawgit.com/IdentityModel/oidc-client-js/release/dist/oidc-client.min.js"></script>
 
     <script type="text/javascript">
     $(function() {
+
+        function createRandomString(length) {
+            var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var result = "";
+
+            for (var i = 0; i < length; i++)
+            {
+                result += alphabet[Math.floor(Math.random() * alphabet.length)];
+            }
+            return result;
+        }
+
         // Specify client using templating engine Jinja2
         var settings = {
             authority: '{{ authority_url }}',
@@ -55,7 +67,8 @@
 
         // Make an authorization request if the user clicks the login button.
         $('#login-button').click(function (event) {
-            mgr.signinPopup();
+            var state = createRandomString(20);
+            mgr.signinPopup({state: state});
         });
     });
     </script>
