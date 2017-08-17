@@ -3,17 +3,6 @@ describe("Ngnix/django", function() {
 	var frisby = require('frisby');
 	var URL = 'https://' + process.env.BOILERPLATE_DOMAIN;
 
-	beforeAll(function() {
-		frisby.globalSetup({ // globalSetup is for ALL requests
-		  request: {
-			headers: {
-				'Host': process.env.BOILERPLATE_DOMAIN,
-				'Connection': 'close',
-			}
-		  }
-		});
-	});
-
 	it("provides an index page", function(done) {
 		frisby.get(URL + '/')
 		  .expect('status', 200)
