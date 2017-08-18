@@ -24,11 +24,15 @@
 
         function createRandomString(length) {
             var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            var randomNrs = new Uint8Array(length);
+            window.crypto.getRandomValues(randomNrs);
+            
             var result = "";
 
             for (var i = 0; i < length; i++)
             {
-                result += alphabet[Math.floor(Math.random() * alphabet.length)];
+                var randomIndex = randomNrs[i] % alphabet.length;
+                result += alphabet[randomIndex];
             }
             return result;
         }
