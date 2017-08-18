@@ -26,6 +26,7 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
+    url(r'^api/eIdService/', include('eid_service.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^api/admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

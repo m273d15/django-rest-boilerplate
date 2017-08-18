@@ -1,0 +1,7 @@
+<TCTokenType>
+    <ServerAddress> {{ serverAddress }} </ServerAddress>
+    <SessionIdentifier> {{ sessionId }} </SessionIdentifier>
+    <RefreshAddress> {{ refreshAddress }} </RefreshAddress>
+    <CommunicationErrorAddress> {{ communicationErrorAddress }} </CommunicationErrorAddress>
+    <Binding> urn:liberty:paos:2006-08 </Binding>
+</TCTokenType>
