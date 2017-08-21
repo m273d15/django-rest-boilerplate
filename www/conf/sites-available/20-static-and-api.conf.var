@@ -36,7 +36,7 @@ server {
   location /api/ {
     # max .5r/s to the API per IP, but 10 at once is okay. This limit may need to be increased once
     # client applications become more powerful
-    limit_req zone=perip-api burst=10 nodelay;
+    limit_req zone=perip-api burst=1000 nodelay;
     expires epoch;
     etag off;
     add_header Strict-Transport-Security "max-age=31536000";
