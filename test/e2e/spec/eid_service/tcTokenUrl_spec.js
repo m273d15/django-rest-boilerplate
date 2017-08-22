@@ -5,7 +5,7 @@ describe("eID-Service: The tcTokenUrl generator", function() {
     var URL = 'https://' + process.env.BOILERPLATE_DOMAIN + '/api/eIdService/getTcTokenUrl';
 
     before(function() {
-        chakram.addProperty('correctRedirect', function(respObj) {
+        chakram.addProperty('correctTcTokenRedirect', function(respObj) {
             let location = respObj.response.headers.location;
             expect(location).to.match(/^(http|eid):\/\/(localhost|127\.0\.0\.1):24727\/eID-Client\?tcTokenUrl=/);
         });
@@ -14,18 +14,18 @@ describe("eID-Service: The tcTokenUrl generator", function() {
     it("redirects by default", function() {
         var response = chakram.get(URL, { followRedirect: false });
         expect(response).to.have.status(302);
-        expect(response).to.be.correctRedirect;
+        expect(response).to.be.correctTcTokenRedirect;
         return chakram.wait();
     });
 
     it("redirects according to hosts", function() {
         var localhost = chakram.get(URL + '?host=localhost', { followRedirect: false });
         expect(localhost).to.have.status(302);
-        expect(localhost).to.be.correctRedirect;
+        expect(localhost).to.be.correctTcTokenRedirect;
 
         var alternative = chakram.get(URL + '?host=127.0.0.1', { followRedirect: false });
         expect(alternative).to.have.status(302);
-        expect(alternative).to.be.correctRedirect;
+        expect(alternative).to.be.correctTcTokenRedirect;
 
         return chakram.wait();
     });
@@ -33,11 +33,11 @@ describe("eID-Service: The tcTokenUrl generator", function() {
     it("redirects according to protocol", function() {
         var http = chakram.get(URL + '?protocol=http', { followRedirect: false });
         expect(http).to.have.status(302);
-        expect(http).to.be.correctRedirect;
+        expect(http).to.be.correctTcTokenRedirect;
 
         var eid = chakram.get(URL + '?protocol=eid', { followRedirect: false });
         expect(eid).to.have.status(302);
-        expect(eid).to.be.correctRedirect;
+        expect(eid).to.be.correctTcTokenRedirect;
 
         return chakram.wait();
     });
@@ -45,11 +45,11 @@ describe("eID-Service: The tcTokenUrl generator", function() {
     it("redirects according to host and protocol", function() {
         var httpLocalhost = chakram.get(URL + '?protocol=http&host=localhost', { followRedirect: false });
         expect(httpLocalhost).to.have.status(302);
-        expect(httpLocalhost).to.be.correctRedirect;
+        expect(httpLocalhost).to.be.correctTcTokenRedirect;
 
         var eidAlternative = chakram.get(URL + '?protocol=eid&host=127.0.0.1', { followRedirect: false });
         expect(eidAlternative).to.have.status(302);
-        expect(eidAlternative).to.be.correctRedirect;
+        expect(eidAlternative).to.be.correctTcTokenRedirect;
 
         return chakram.wait();
     });
