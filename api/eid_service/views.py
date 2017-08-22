@@ -2,6 +2,7 @@ from uuid import UUID
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from eid_service.models import AuthenticationRequest
+from eid_server.service_interface import use_id, get_result
 
 
 class HttpResponseRedirectEId(HttpResponseRedirect):
@@ -23,10 +24,8 @@ def get_tc_token_url(request):
             return HttpResponseBadRequest()
         if (host != '127.0.0.1') and (host != 'localhost'):
             return HttpResponseBadRequest()
-        ##
-        # get sessionId from eID-Server
-        ##
         authenticationRequest = AuthenticationRequest()
+        authenticationRequest.sessionId = use_id()
         authenticationRequest.save()
         tc_token_url = 'https://' + request.get_host() + '/api/eIdService/getTcToken?tcTokenId=' + str(authenticationRequest.tcTokenId)
         return HttpResponseRedirectEId(protocol + '://' + host + ':24727/eID-Client?tcTokenUrl=' + tc_token_url)
@@ -67,10 +66,8 @@ def refresh(request):
             authenticationRequest = AuthenticationRequest.objects.get(refreshId=refreshId)
         except AuthenticationRequest.DoesNotExist:
             return HttpResponseBadRequest()
-        ##
-        # get result from eID-Server
-        ##
-        return HttpResponse("result from eID-Server")
+        restrictedId = get_result(authenticationRequest.sessionId)
+        return HttpResponse("RestricedId: " + str(restrictedId))
     else:
         return HttpResponseBadRequest()
     return HttpResponseBadRequest()
