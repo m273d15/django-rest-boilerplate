@@ -1,11 +1,11 @@
 describe("eID-Service: The error page", function() {
 
-    var frisby = require('frisby');
+    var chakram = require('/usr/local/lib/node_modules/chakram/lib/chakram.js');
+    var expect = chakram.expect;
     var URL = 'https://' + process.env.BOILERPLATE_DOMAIN + '/api/eIdService/error';
-    
-    it("is available", function(done) {
-        frisby.get(URL)
-            .expect('status', 200)
-        .done(done);
+
+    it("is available", function() {
+        var response = chakram.get(URL);
+        return expect(response).to.have.status(200);
     });
 });

@@ -1,24 +1,21 @@
 describe("Ngnix/django", function() {
 
-	var frisby = require('frisby');
-	var URL = 'https://' + process.env.BOILERPLATE_DOMAIN;
+    var chakram = require('/usr/local/lib/node_modules/chakram/lib/chakram.js');
+    var expect = chakram.expect;
+    var URL = 'https://' + process.env.BOILERPLATE_DOMAIN;
 
-	it("provides an index page", function(done) {
-		frisby.get(URL + '/')
-		  .expect('status', 200)
-		.done(done);
-	});
+    it("provides an index page", function() {
+        var response = chakram.get(URL + '/');
+        return expect(response).to.have.status(200);
+    });
 
-	it("provides an admin page", function(done) {
-		frisby.get(URL + '/api/admin')
-		  .expect('status', 200)
-		.done(done);
-	});
+    it("provides an admin page", function() {
+        var response = chakram.get(URL + '/api/admin');
+        return expect(response).to.have.status(200);
+    });
 
-	it("provides an admin login page", function(done) {
-		frisby.get(URL + '/api/admin/login/')
-		  .expect('status', 200)
-		.done(done);
-	});
+    it("provides an admin login page", function() {
+        var response = chakram.get(URL + '/api/admin/login/');
+        return expect(response).to.have.status(200);
+    });
 });
-
