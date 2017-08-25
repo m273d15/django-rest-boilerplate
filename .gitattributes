@@ -1,2 +1,3 @@
 # Force LF on text files (requires git>=2.10)
 * text=auto eol=lf
+*.gif binary
