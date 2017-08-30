@@ -1,0 +1,4 @@
+Demo {
+ //Configuration used to connect to Governikus Autent
+  de.bos_bremen.gov.autent.requester.auth.AutentLoginModule required providerAddress="https://127.0.0.1:8443/gov_autent/sync" providerName=demo_pw sslCertName="./governikus_ssl_cert.crt" doNotCheckHostname=true;
+};

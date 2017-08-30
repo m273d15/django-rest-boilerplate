@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="SamplesAutent" default="compile" basedir=".">
+
+   <!-- ############################################# -->
+   <!--   set up the class path and some properties   -->
+   <!-- ############################################# -->
+   <target name="init">
+      <property name="src.dir" location="${basedir}/src" />
+      <property name="classes.dir" location="${basedir}/classes" />
+      <property name="lib.dir" location="${basedir}/../../../libraries" />
+      <property name="bos.lib.dir" location="${lib.dir}/libs_bos" />
+      <property name="own.lib.dir" location="${basedir}/../../lib" />
+      <property name="thirdparty.lib.dir" location="${lib.dir}/libs_thirdparty" />
+      <property name="metro.lib.dir" location="${lib.dir}/metro/lib" />
+      <path id="classpath_default">
+         <pathelement location="${metro.lib.dir}/webservices-api.jar" />
+         <pathelement location="${metro.lib.dir}/webservices-rt.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/opensaml.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/xmltooling.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/slf4j-api.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/xmlsec.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/velocity.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/commons-collections.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/commons-lang-2.1.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/commons-codec.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/httpclient.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/endorsed/serializer.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/endorsed/xalan.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/endorsed/xercesImpl.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/endorsed/xml-apis.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/openws.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/jcip-annotations.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/not-yet-commons-ssl.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/joda-time.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/esapi.jar" />
+         <pathelement location="${thirdparty.lib.dir}/javaee.jar" />
+         <pathelement location="${thirdparty.lib.dir}/log4j.jar" />
+         <pathelement location="${thirdparty.lib.dir}/commons-logging.jar" />
+         <pathelement location="${own.lib.dir}/eid-service.jar" />
+         <pathelement location="${own.lib.dir}/autentCommon.jar" />
+         <pathelement location="${own.lib.dir}/autentRequester.jar" />
+      </path>
+   </target>
+
+   <!-- ######################## -->
+   <!--    compile the samples   -->
+   <!-- ######################## -->
+   <target name="compile" depends="init" description="compiles the sample class(es)">
+      <mkdir dir="${classes.dir}" />
+      <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true">
+         <classpath refid="classpath_default" />
+      </javac>
+      <copy todir="${classes.dir}/">
+         <fileset dir="${src.dir}">
+            <include name="testKeys/*" />
+         </fileset>
+      </copy>
+   </target>
+
+   <!-- ################## -->
+   <!--   clean            -->
+   <!-- ################## -->
+   <target name="clean" depends="init" description="deletes all created files">
+      <delete dir="${classes.dir}" />
+   </target>
+
+</project>

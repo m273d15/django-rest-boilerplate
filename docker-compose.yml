@@ -62,6 +62,15 @@ services:
     - rear_www_static
     restart: unless-stopped
 
+  tomcat:
+    build: tomcat
+    image: boilerplate/tomcat:latest
+    ports:
+    - "8443:8443"
+    depends_on:
+    - www
+    restart: unless-stopped
+
 volumes:
   db_mysql:
 
