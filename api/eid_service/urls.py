@@ -8,6 +8,7 @@ from . import views
 router = routers.DefaultRouter()
 
 urlpatterns = [
+    url(r'^init$', views.init),
     url(r'^getTcTokenUrl$', views.get_tc_token_url),
     url(r'^getTcToken$', views.get_tc_token),
     url(r'^refresh$', views.refresh),
