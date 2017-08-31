@@ -12,7 +12,7 @@ As it is running inside the Docker container, no Python virtual environment is n
 
 ### Installed Django Apps
 
-This Django installation (currently 1.11) is extended by the [Django REST Framework](http://www.django-rest-framework.org/).
+This Django installation (currently 1.11) is extended by the [Django REST Framework](http://www.django-rest-framework.org/) and [Django-OIDC-Provider](https://github.com/juanifioren/django-oidc-provider)
 
 ### Settings
 
@@ -26,3 +26,30 @@ At build time, this image installs some `mysql` dependencies and tools onto the 
 ## Starting a Container
 
 When started, `entrypoint.sh` is executed. It connects to the database and executes Django database migration if necessary. Afterwards, the Django uswgi service is started. Note that this service is not inteded to be exposed to the public, and doing so may yield unintended consequences.
+
+## Django OIDC Provider
+
+This package is installed as Django App in the `api` container. It provides all the endpoints, data and logic to add OpenID Connect capabilities.
+
+### OpenID Connect
+
+OpenID Connect is a simple identity layer on top of the OAuth 2.0 protocol, which allows computing clients to verify the identity of an end-user based on the authentication performed by an authorization server, as well as to obtain basic profile information about the end-user in an interoperable and REST-like manner.
+
+### Configuration
+
+The URLs are configured in the `urls.py` file. The app itself is registered in `settings.py`.
+
+### Customization
+
+The app provides some custom [settings](http://django-oidc-provider.readthedocs.io/en/v0.5.x/sections/settings.html) which has to be written in `settings.py`.
+Especially `OIDC_IDTOKEN_EXPIRE` and `OIDC_IDTOKEN_PROCESSING_HOOK` could be important to adjust the IDToken.
+
+### Use the Provider
+1. Be sure you already created a RSA key, otherwise do it with `docker-compose exec api python manage.py creatersakey`
+2. Now you can create clients with `docker-compose exec api python manage.py registerclient`. Alternatively you can do this over the webinterface https://BOILERPLATE_DOMAIN/api/admin. Be sure you already created a djange superuser. There are some mandatory parameters:
+  * name
+  * client id
+  * clienttype
+  * response type: be sure the client is configured with the same type
+  * redirect url
+3. After the client was created, let the client know which id it has.

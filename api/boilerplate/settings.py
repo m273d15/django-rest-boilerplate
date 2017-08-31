@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'eid_service',
-    'eid_server'
+    'eid_server',
+    'oidc_provider',
 ]
 
 MIDDLEWARE = [
