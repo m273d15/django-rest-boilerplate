@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'eid_service',
     'eid_server',
     'oidc_provider',
+    'eid_oidc_provider',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,8 @@ TEST_RUNNER = 'eid_server.tests.testrunner.NoDbTestRunner'
 
 STATIC_URL = '/api/static/'
 STATIC_ROOT = '/usr/src/app/static'
+
+# OIDC Provider
+LOGIN_URL = '../eidopenid/auth'
+OIDC_IDTOKEN_PROCESSING_HOOK = 'eid_oidc_provider.utils.token.idtoken_processing_hook'
+
