@@ -12,4 +12,5 @@ from boilerplate.tests.attributeresponse import *
 from boilerplate.tests.operationsresponder import *
 from boilerplate.tests.version import *
 from boilerplate.tests.presharedkey import *
+from boilerplate.tests.verificationresult import *
 

@@ -14,6 +14,9 @@ def check_str(variable_name, variable, allow_empty=False):
         
 def check_int(variable_name, variable):
     check(variable_name + " has to be a valid int", variable, int)
+    
+def check_bool(description, variable):
+    check(description, variable, bool)
 
 def check_positive_int(variable_name, variable):
     check(variable_name + " has to be a valid int", variable, int)
