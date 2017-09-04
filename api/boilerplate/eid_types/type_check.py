@@ -42,3 +42,9 @@ def check_attributeRequest(description, variable):
     if(not(variable == "ALLOWED" or variable == "PROHIBITED" or variable == "REQUIRED")):
         raise TypeError(description)
         
+def check_attributeResponse(description, variable_name, variable):
+    check_str(variable_name, variable)
+
+    if(not(variable == "ALLOWED" or variable == "PROHIBITED" or variable == "NOTONCHIP")):
+        raise TypeError(description)
+        

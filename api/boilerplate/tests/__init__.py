@@ -8,4 +8,6 @@ from boilerplate.tests.attributeselection import *
 from boilerplate.tests.operationsselector import *
 from boilerplate.tests.attributerequest import *
 from boilerplate.tests.operationsrequestor import *
+from boilerplate.tests.attributeresponse import *
+from boilerplate.tests.operationsresponder import *
 
