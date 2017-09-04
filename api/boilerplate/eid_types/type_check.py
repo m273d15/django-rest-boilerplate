@@ -29,4 +29,10 @@ def check_dateString(description, variable_name, variable):
     
 def check_dateValue(description, variable_name, variable):
     check(description, variable, date)
+    
+def check_attributeSelection(description, variable):
+    check_str(description, variable, False)
+	
+    if(not(variable == "ALLOWED" or variable == "PROHIBITED")):
+        raise TypeError(description)
         
