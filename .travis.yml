@@ -12,7 +12,7 @@ env:
 
 before_install:
   - mkdir certs
-  - chmod +x init_ci.sh
+  - chmod +x init_ci.sh run_ci.sh
   - ./init_ci.sh
 
 script:
@@ -20,5 +20,4 @@ script:
   - sleep 20
   - wget --no-check-certificate https://eid.local
   - docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build test-e2e
-  - docker-compose down
-  - exit $(docker-compose -f docker-compose.yml -f docker-compose.test.yml ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | grep -v 0 | wc -l | tr -d ' ')
+  - ./run_ci.sh
