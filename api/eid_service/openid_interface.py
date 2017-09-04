@@ -12,4 +12,7 @@ def get_user_id(accessToken):
         authenticationRequest = AuthenticationRequest.objects.get(accessToken=accessToken)
     except (AuthenticationRequest.DoesNotExist, ValidationError):
         return None
+    # check for empty value
+    if authenticationRequest.restrictedId == b'':
+        return None
     return str(authenticationRequest.restrictedId)
