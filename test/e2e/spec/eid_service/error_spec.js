@@ -1,6 +1,6 @@
 describe("eID-Service: The error page", function() {
 
-    var chakram = require('/usr/local/lib/node_modules/chakram/lib/chakram.js');
+    var chakram = require('chakram');
     var expect = chakram.expect;
     var URL = 'https://' + process.env.BOILERPLATE_DOMAIN + '/api/eIdService/error';
 
