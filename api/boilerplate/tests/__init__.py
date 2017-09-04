@@ -6,4 +6,6 @@ from boilerplate.tests.generaldate import *
 from boilerplate.tests.personaldata import *
 from boilerplate.tests.attributeselection import *
 from boilerplate.tests.operationsselector import *
+from boilerplate.tests.attributerequest import *
+from boilerplate.tests.operationsrequestor import *
 
