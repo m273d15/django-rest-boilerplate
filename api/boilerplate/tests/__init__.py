@@ -13,4 +13,6 @@ from boilerplate.tests.operationsresponder import *
 from boilerplate.tests.version import *
 from boilerplate.tests.presharedkey import *
 from boilerplate.tests.verificationresult import *
+from boilerplate.tests.ageverificationrequest import * 
+from boilerplate.tests.placeverificationrequest import * 
 

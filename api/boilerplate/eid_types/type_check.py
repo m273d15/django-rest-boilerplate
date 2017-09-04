@@ -59,3 +59,7 @@ def check_attributeResponse(description, variable_name, variable):
     if(not(variable == "ALLOWED" or variable == "PROHIBITED" or variable == "NOTONCHIP")):
         raise TypeError(description)
         
+def check_placeVerificationRequest(description, variable_name, variable):
+    pattern = '([0][0-9]{3}([0-9]{2}([0][0-9]([0-9]{2}([0][0-9]{3})?)?)?)?)?$'
+    check_is_string_matching(description, variable_name, variable, pattern)
+        
