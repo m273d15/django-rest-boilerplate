@@ -7,6 +7,6 @@ echo $py_test
 docker-compose down
 
 if [[ $js_test == 0 && $py_test == 0 ]]; then
-exit 0
+    exit 0
 fi
 exit 1
