@@ -10,12 +10,12 @@ describe("Ngnix/django", function() {
     });
 
     it("provides an admin page", function() {
-        var response = chakram.get(URL + '/api/admin');
+        var response = chakram.get(URL + '/api/admin', { followRedirect: true });
         return expect(response).to.have.status(200);
     });
 
     it("provides an admin login page", function() {
-        var response = chakram.get(URL + '/api/admin/login/');
+        var response = chakram.get(URL + '/api/admin/login/', { followRedirect: true });
         return expect(response).to.have.status(200);
     });
 });

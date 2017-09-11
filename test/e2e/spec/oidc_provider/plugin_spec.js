@@ -1,5 +1,4 @@
 describe("OpenId: The OIDC Plugin", function() {
-
     var chakram = require('chakram');
     var expect = chakram.expect;
     var URL = 'https://' + process.env.BOILERPLATE_DOMAIN + '/api/openid'
