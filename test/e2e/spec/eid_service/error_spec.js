@@ -7,7 +7,7 @@ describe("eID-Service: The error page", function() {
     before(function() {
         chakram.addProperty('correctErrorRedirect', function(respObj) {
             let location = respObj.response.headers.location;
-            expect(location).to.match(/\/api\/openid\/login$/);
+            expect(location).to.match(/\/api\/eidopenid\/login\/?$/);
         });
     });
 

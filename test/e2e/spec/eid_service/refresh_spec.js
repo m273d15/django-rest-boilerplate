@@ -7,7 +7,7 @@ describe("eID-Service: The refresh page", function() {
     before(function() {
         chakram.addProperty('correctRefreshRedirect', function(respObj) {
             let location = respObj.response.headers.location;
-            expect(location).to.match(/\/api\/openid\/login\?eid_access_token=.*[&]test=bla[&]foo=bar$/);
+            expect(location).to.match(/\/api\/eidopenid\/login\/?\?eid_access_token=.*[&]test=bla[&]foo=bar$/);
         });
     });
 
