@@ -35,6 +35,7 @@ addToEnv "BOILERPLATE_WWW_CERTS=$CERT_DIR"
 addToEnv "BOILERPLATE_API_SECRETKEY=$(date | md5sum | cut -d' ' -f 1)"
 sleep 1
 addToEnv "BOILERPLATE_DB_PASSWORD=$(date | md5sum | cut -d' ' -f 1)"
+cat .env.test >> .env
 
 echo "#################### .env ####################"
 cat .env
