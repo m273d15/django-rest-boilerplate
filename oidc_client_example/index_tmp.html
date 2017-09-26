@@ -1,81 +1,142 @@
-<!DOCTYPE html>
 <html>
-<head>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <title>OpenID Connect example client (Resource Provider)</title>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-</head>
-<body>
 
-    <center>
-        <h1>Example Client</h1>
-    <div id='content-div'>
-        <button id="login-button">Login with eID</button>
-    </div>
-    </center>
+    </head>
 
-    <!-- Use JQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-    <!-- Use JS OpenID library -->
-    <script src="https://cdn.rawgit.com/IdentityModel/oidc-client-js/release/dist/oidc-client.min.js"></script>
+    <body>
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Example Client</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+              <li><button id="login-button" type="button" class="btn btn-link"><span class="glyphicon glyphicon-log-in"></span> Login with eID</button></li>
+            </ul>
+          </div>
+        </nav>
 
-    <script type="text/javascript">
-    $(function() {
+        <div class="container">
 
-        function createRandomString(length) {
-            var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var randomNrs = new Uint8Array(length);
-            window.crypto.getRandomValues(randomNrs);
+          <div class="jumbotron">
+            <h1>Current user: <strong><span id="username">None</span></strong></h1> 
+          </div>
+
+          <p>This client simply provides the functionality of a minimal user management for the following set of users:</p>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Expected hash</th>
+                <th>Prefered milkshake taste</th>
+              </tr>
+            </thead>
+
+            <tbody id="user_table_body">
+            </tbody>
+          </table>
+        </div>
+
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+        <script src="https://cdn.rawgit.com/IdentityModel/oidc-client-js/release/dist/oidc-client.min.js"></script>
+
+        <script type="text/javascript">
+            var users = [{ name: "Marcus", hash: "12345", taste: "Banana"},
+                     { name: "Brandon", hash: "12346", taste: "Vanilla"},
+                     { name: "Zachary", hash: "deadbeef", taste: "Peppermint"}];
+
+            window.onload = function(){
+                var tableBody = document.getElementById("user_table_body");
             
-            var result = "";
 
-            for (var i = 0; i < length; i++)
-            {
-                var randomIndex = randomNrs[i] % alphabet.length;
-                result += alphabet[randomIndex];
-            }
-            return result;
-        }
+                for (i = 0; i < users.length; i++)
+                {
+                    var tr = document.createElement('tr'),
+                        td_name = document.createElement('td'),
+                        td_hash = document.createElement('td'),
+                        td_taste = document.createElement('td');
 
-        // Specify client using templating engine Jinja2
-        var settings = {
-            authority: '{{ authority_url }}',
-            client_id: '{{ client_id }}',
-            redirect_uri:'{{ redirect_url }}',
-            response_type: 'id_token token',
-            scope: 'openid',
-            filterProtocolClaims: true,
-            loadUserInfo: false
-        };
+                    td_name.appendChild(document.createTextNode(users[i].name));
+                    td_hash.appendChild(document.createTextNode(users[i].hash));
+                    td_taste.appendChild(document.createTextNode(users[i].taste));
 
-        var mgr = new Oidc.UserManager(settings);
+                    tr.appendChild(td_name);
+                    tr.appendChild(td_hash);
+                    tr.appendChild(td_taste);
 
-        // Add listener that adds user infos to html page
-        mgr.events.addUserLoaded(function(user) {
-            $('#login-button').hide()
-
-            var table = "<table><th>Property</th><th>Value</th>"
-                for (var property in user) {
-                        if (user.hasOwnProperty(property)) {
-                        table += "<tr><td>" + property + "</td><td>" + JSON.stringify(user[property]) + "</td></tr>"
-                    }
+                    tableBody.appendChild(tr);
                 }
-            $('#content-div').append(table);
-        });
+            };
 
-        // call back to parent window
-        if (window.opener && window.opener != window)
-        {
-            mgr.signinPopupCallback();
-        }
+            $(function() {
 
-        // Make an authorization request if the user clicks the login button.
-        $('#login-button').click(function (event) {
-            var state = createRandomString(20);
-            mgr.signinPopup({state: state});
-        });
-    });
-    </script>
+                function createRandomString(length) {
+                    var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                    var randomNrs = new Uint8Array(length);
+                    window.crypto.getRandomValues(randomNrs);
+                    
+                    var result = "";
 
-</body>
+                    for (var i = 0; i < length; i++)
+                    {
+                        var randomIndex = randomNrs[i] % alphabet.length;
+                        result += alphabet[randomIndex];
+                    }
+                    return result;
+                }
+
+                // Specify client using templating engine Jinja2
+                var settings = {
+                    authority: '{{ authority_url }}',
+                    client_id: '{{ client_id }}',
+                    redirect_uri:'{{ redirect_url }}',
+                    response_type: 'id_token token',
+                    scope: 'openid',
+                    filterProtocolClaims: true,
+                    loadUserInfo: false
+                };
+
+                var mgr = new Oidc.UserManager(settings);
+
+                // Add listener that adds user infos to html page
+                mgr.events.addUserLoaded(function(user) {
+                    var hash = user.profile["username"];
+                    user = users.find(function(e){return e.hash == hash});
+
+                    userName = "";
+                    if (user == undefined)
+                    {
+                        userName = "Unknown user with hash " + hash;
+                    }
+                    else
+                    {
+                        userName = user.name;
+                    }
+                    $("#username").html(userName);
+                });
+
+                // call back to parent window
+                if (window.opener && window.opener != window)
+                {
+                    mgr.signinPopupCallback();
+                }
+
+                // Make an authorization request if the user clicks the login button.
+                $('#login-button').click(function (event) {
+                    var state = createRandomString(20);
+                    mgr.signinPopup({state: state});
+                });
+            });
+
+        </script>
+    </body>
 </html>
