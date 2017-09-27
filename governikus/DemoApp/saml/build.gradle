@@ -1,0 +1,45 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+repositories
+{
+    maven { url 'https://build.shibboleth.net/nexus/content/repositories/releases/org/opensaml/' }
+    flatDir { dirs '../lib' }
+    mavenCentral()
+}
+
+project.ext.set('sourceDir', 'src')
+
+sourceSets.main.java.srcDir project.sourceDir 
+
+dependencies
+{
+    compile 'log4j:log4j:1.2.6'
+    compile 'commons-logging:commons-logging:1.1.1'
+    // should be used only during compilation since the tomcat
+    // should provide this library during runtime
+    compileOnly 'javax:javaee-api:6.0'
+
+    // Add saml dependencies from shibboleth repo
+    compile 'org.opensaml:xmltooling:1.4.1'
+    compile 'org.opensaml:openws:1.5.1'
+
+    // Add dependencies from local lib dir
+    compile name: 'autentCommon'
+    compile name: 'autentRequester'
+
+    runtime 'org.slf4j:slf4j-log4j12:1.6.1'
+    runtime 'org.opensaml:opensaml:2.6.1'
+}
+
+war
+{
+    archiveName = 'AutentSAMLDemo.war'
+    from 'WebContent/'
+    webInf
+    {
+        from project.sourceDir
+        exclude '**/*.java'
+        into 'classes'
+    }
+}
