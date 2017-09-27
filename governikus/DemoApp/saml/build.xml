@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<project name="AutentSAMLSamplesApplication" default="dist" basedir=".">
+
+   <!-- ############################################# -->
+   <!-- set up the class path and some properties -->
+   <!-- ############################################# -->
+   <target name="init">
+      <property name="src.dir" location="${basedir}/src" />
+      <property name="build.dir" location="${basedir}/build" />
+      <property name="dist.dir" location="${basedir}/dist" />
+      <property name="classes.dir" location="${basedir}/classes" />
+      <property name="lib.dir" location="${basedir}/../libraries" />
+      <property name="bos.lib.dir" location="${lib.dir}/libs_bos" />
+      <property name="own.lib.dir" location="${basedir}/../lib" />
+      <property name="thirdparty.lib.dir" location="${lib.dir}/libs_thirdparty" />
+      <property name="testKeys.dir" location="${basedir}/../../testKeys/" />
+      <property name="webapps.dir" location="${basedir}/../../apache-tomcat-8.5.5/webapps/" />
+      <path id="classpath_default">
+         <pathelement location="${thirdparty.lib.dir}/javaee.jar" />
+         <pathelement location="${thirdparty.lib.dir}/log4j.jar" />
+         <pathelement location="${thirdparty.lib.dir}/commons-logging.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/opensaml.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/xmltooling.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/slf4j-api.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/xmlsec.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/velocity.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/commons-collections.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/commons-lang-2.1.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/commons-codec.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/httpclient.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/endorsed/serializer.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/endorsed/xalan.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/endorsed/xercesImpl.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/endorsed/xml-apis.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/openws.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/jcip-annotations.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/not-yet-commons-ssl.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/joda-time.jar" />
+         <pathelement location="${thirdparty.lib.dir}/openSAML/esapi.jar" />
+         <pathelement location="${own.lib.dir}/autentCommon.jar" />
+         <pathelement location="${own.lib.dir}/autentRequester.jar" />
+      </path>
+      <mkdir dir="${build.dir}" />
+      <mkdir dir="${dist.dir}" />
+   </target>
+
+   <!-- ######################## -->
+   <!-- compile the samples -->
+   <!-- ######################## -->
+   <target name="compile" depends="init" description="compiles the sample class(es)">
+      <mkdir dir="${classes.dir}" />
+      <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true">
+         <classpath refid="classpath_default" />
+      </javac>
+      <copy todir="${classes.dir}/">
+         <fileset dir="${src.dir}">
+            <include name="testKeys/**/*" />
+            <include name="log4j.xml" />
+            <include name="**/*.html" />
+         </fileset>
+      </copy>
+   </target>
+   <!-- ######################## -->
+   <!-- compile the samples -->
+   <!-- ######################## -->
+   <target name="replacewar" depends="dist" description="Replaces the war archive in the Tomcat">
+      <delete file="${webapps.dir}/AutentSAMLDemo.war" />
+        <delete dir="${webapps.dir}/AutentSAMLDemo" />
+      <copy todir="${webapps.dir}/" file="${dist.dir}/AutentSAMLDemo.war" /> 
+    </target>
+   <!-- ################## -->
+   <!-- clean -->
+   <!-- ################## -->
+   <target name="clean" depends="init" description="deletes all created files">
+      <delete dir="${classes.dir}" />
+      <delete dir="${build.dir}" />
+      <delete dir="${dist.dir}" />
+   </target>
+
+   <!-- ######################## -->
+   <!-- creates the war file -->
+   <!-- ######################## -->
+   <target name="dist" depends="compile" description="creates the war file to deploy on the application server">
+      <war destfile="${dist.dir}/AutentSAMLDemo.war" webxml="WebContent/WEB-INF/web.xml">
+         <manifest>
+            <attribute name="Implementation-Title" value="Governikus Autent WebService Sample" />
+            <attribute name="Implementation-Vendor" value="Governikus GmbH &amp; Co. KG" />
+            <attribute name="Implementation-URL" value="http://www.governikus.de" />
+         </manifest>
+         <classes dir="${classes.dir}">
+            <include name="**/*.class" />
+            <include name="**/*.html" />
+            <include name="**/*.p12" />
+            <include name="**/*.crt" />
+             <include name="**/*.cer" />
+            <include name="**/*.xml" />
+         </classes>
+         <lib dir="${thirdparty.lib.dir}">
+            <include name="commons-logging.jar" />
+            <include name="slf4j-log4j12.jar" />
+            <include name="log4j.jar" />
+         </lib>
+         <lib dir="${thirdparty.lib.dir}/openSAML">
+            <include name="opensaml.jar" />
+            <include name="xmltooling.jar" />
+            <include name="slf4j-api.jar" />
+            <include name="xmlsec.jar" />
+            <include name="velocity.jar" />
+            <include name="commons-collections.jar" />
+            <include name="commons-lang-2.1.jar" />
+            <include name="commons-codec.jar" />
+            <include name="commons-httpclient.jar" />
+            <include name="openws.jar" />
+            <include name="jcip-annotations.jar" />
+            <include name="not-yet-commons-ssl.jar" />
+            <include name="joda-time.jar" />
+            <include name="esapi.jar" />
+         </lib>
+         <lib dir="${thirdparty.lib.dir}/openSAML/endorsed">
+            <include name="serializer.jar" />
+            <include name="xalan.jar" />
+            <include name="xercesImpl.jar" />
+            <include name="xml-apis.jar" />
+         </lib>
+         <lib dir="${own.lib.dir}">
+            <include name="autentCommon.jar" />
+            <include name="autentRequester.jar" />
+         </lib>
+         <fileset dir="WebContent">
+            <include name="**/*.html" />
+            <include name="**/*.css" />
+            <include name="**/*.jsp" />
+			<include name="**/*.js" />
+			<include name="**/*.png" />
+			<include name="**/*.jpg" />
+			<include name="**/*.woff*" />
+			<include name="**/*.ttf" />
+			
+         </fileset>
+      </war>
+   </target>
+</project>

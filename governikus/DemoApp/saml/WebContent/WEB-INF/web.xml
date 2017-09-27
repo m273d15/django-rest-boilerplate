@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+   version="3.0">
+   <display-name>eID-Democlient</display-name>
+   <servlet>
+      <servlet-name>RequesterServlet</servlet-name>
+      <servlet-class>de.bos_bremen.gov.autent.requester.samples.saml.RequesterServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>RequesterServlet</servlet-name>
+      <url-pattern>/RequesterServlet</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>RequesterServlet</servlet-name>
+      <url-pattern>/DummyRequesterServlet</url-pattern>
+   </servlet-mapping>
+   <servlet>
+      <servlet-name>ReceiverServlet</servlet-name>
+      <servlet-class>de.bos_bremen.gov.autent.requester.samples.saml.ReceiverServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>ReceiverServlet</servlet-name>
+      <url-pattern>/ReceiverServlet</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>ReceiverServlet</servlet-name>
+      <url-pattern>/DummyReceiverServlet</url-pattern>
+   </servlet-mapping>
+   
+   <servlet>
+      <servlet-name>NewRequesterServlet</servlet-name>
+      <servlet-class>de.bos_bremen.gov.autent.requester.samples.saml.NewRequesterServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>NewRequesterServlet</servlet-name>
+      <url-pattern>/NewRequesterServlet</url-pattern>
+   </servlet-mapping>
+   <servlet>
+      <servlet-name>NewReceiverServlet</servlet-name>
+      <servlet-class>de.bos_bremen.gov.autent.requester.samples.saml.NewReceiverServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>NewReceiverServlet</servlet-name>
+      <url-pattern>/NewReceiverServlet</url-pattern>
+   </servlet-mapping>
+
+   <welcome-file-list>
+      <welcome-file>index.jsp</welcome-file>
+   </welcome-file-list>
+</web-app>
