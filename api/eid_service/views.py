@@ -1,8 +1,11 @@
 from uuid import UUID
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
+from django.urls import reverse
 from eid_service.models import AuthenticationRequest
+from eid_service import views as eid_service_views
 from eid_server.service_interface import use_id, get_result
+from eid_oidc_provider import views as eid_openid_views
 
 
 class HttpResponseRedirectEId(HttpResponseRedirect):
@@ -49,8 +52,9 @@ def get_tc_token_url(request):
         authenticationRequest.sessionId = use_id()
         authenticationRequest.openidParameter = openidParameter.urlencode()
         authenticationRequest.save()
-        tc_token_url = 'https://' + request.get_host() + '/api/eIdService/getTcToken?tcTokenId=' + str(authenticationRequest.tcTokenId)
-        return HttpResponseRedirectEId(protocol + '://' + host + ':24727/eID-Client?tcTokenUrl=' + tc_token_url)
+        tc_token_url = "https://%s%s?tcTokenId=%s" % (request.get_host(), reverse(eid_service_views.get_tc_token), str(authenticationRequest.tcTokenId))
+        redirect_url = "%s://%s:24727/eID-Client?tcTokenUrl=%s" % (protocol, host, tc_token_url)
+        return HttpResponseRedirectEId(redirect_url)
     else:
         return HttpResponseBadRequest()
 
@@ -101,13 +105,14 @@ def refresh(request):
             return HttpResponseBadRequest()
         authenticationRequest.restrictedId = get_result(authenticationRequest.sessionId)
         authenticationRequest.save()
-        return HttpResponseRedirect('https://' + request.get_host() + '/api/openid/login?eid_access_token=' + str(authenticationRequest.accessToken) + "&" + authenticationRequest.openidParameter)
+        redirect_to = "%s?eid_access_token=%s&%s" % (reverse(eid_openid_views.open_id_login), str(authenticationRequest.accessToken), authenticationRequest.openidParameter)
+        return HttpResponseRedirect(redirect_to)
     else:
         return HttpResponseBadRequest()
-    
+
 def error(request):
     """
     The user agent is redirected to this view if the authentication session between eID-Client
     and eID-Server fails.
     """
-    return HttpResponseRedirect('https://' + request.get_host() + '/api/openid/login')
+    return HttpResponseRedirect(reverse(eid_openid_views.open_id_login))
