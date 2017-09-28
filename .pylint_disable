@@ -1,0 +1,4 @@
+missing-docstring # not necessary everywhere
+import-error # Would be necessary to install django into travis
+no-member
+R
