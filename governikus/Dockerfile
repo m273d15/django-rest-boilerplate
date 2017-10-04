@@ -8,8 +8,10 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
  
 COPY DemoApp /DemoApp
+COPY procbridge /procbridge
 
-RUN cd /DemoApp/saml \
+#RUN cd /DemoApp/saml \
+RUN cd /procbridge \
  && gradle clean war \
  && cp build/libs/AutentSAMLDemo.war $CATALINA_HOME/webapps/ \
  && cd / \

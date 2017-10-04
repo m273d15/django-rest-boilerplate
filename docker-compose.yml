@@ -1,6 +1,24 @@
 version: '2.1'
 
 services:
+  tomcat:
+    build: governikus
+    image: boilerplate/tomcat:latest
+    ports:
+    - "8443:443"
+    networks:
+    - rear_tomcat_api
+    restart: unless-stopped
+
+  demo:
+    build: demo
+    image: boilerplate/demo:latest
+    ports:
+    - "8877:8877"
+    networks:
+    - rear_tomcat_api
+    restart: unless-stopped
+
   www:
     build: www
     image: boilerplate/www:latest
@@ -15,6 +33,7 @@ services:
     depends_on:
     - api
     - static
+    - tomcat
     mac_address: 06:42:ac:10:00:80
     networks:
       front:
@@ -53,6 +72,7 @@ services:
     networks:
     - rear_www_api
     - rear_api_db
+    - rear_tomcat_api
     restart: unless-stopped
 
   static:
@@ -100,3 +120,10 @@ networks:
       config:
       - subnet: ${BOILERPLATE_IPV4_16PREFIX}.3.0/24
         gateway: ${BOILERPLATE_IPV4_16PREFIX}.3.1
+  rear_tomcat_api:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: ${BOILERPLATE_IPV4_16PREFIX}.4.0/24
+        gateway: ${BOILERPLATE_IPV4_16PREFIX}.4.1
