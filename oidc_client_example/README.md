@@ -1,3 +1,7 @@
+# OIDC Client Example
+This container mocks a third party which uses the authentication with this eid authentication service.
+
+
 ## Start example client
 * Run the client in the project root dir, via `docker-compose -f docker-compose.example.yml up`
 
