@@ -1,9 +1,126 @@
 <!doctype html>
+
 <html>
-  <head>
-    <title>e-ID Login</title>
-  </head>
+    <head>
+        <title>EID-Based Single Sign-On Service</title>
+
+        <link rel="stylesheet" href="../css/bootstrap-3.3.7.min.css">
+
+        <script src="../js/vendor/jquery-3.2.1.min.js"></script>
+    </head>
+
     <body>
-      <p>From here we should redirect to clientUrl + ?tcToken=....</p>
+      <header>
+        <div class=" container page-header">
+          <h1 id="logo">
+            EID-Based Single Sign-On Service
+          </h1>
+        </div>
+      </header><!-- /header -->
+
+      <div class="container well">
+        <p>Authentication via username and password has a couple of disadvantages. Hence, enterprises and governments attempt to replace the authentication by username and password with an alternative solution such as the use of hardware tokens. In Germany, the government introduced nPa as an official hardware token that can be used for authentication and that fulfills high standards in security and privacy.</p>
+        <p>This is an authentication service that enables third parties to authenticate their users using eid, i.e. the "neuen Personalausweis" ("new" german id card) or the electronic residency permit, instead of using username and password. To register a third party client, fill the formular below.</p>
+      </div>
+
+      <div class="container">
+        <div>
+          <h2>Client Registration</h2>
+        </div>
+
+        <form class="form-horizontal" role="form" action="/api/registration/" method="get">
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="clientName">Client Name*</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="clientName" placeholder="Enter client name" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="clientType">Client Type</label>
+            <div class="col-sm-9">
+              <select class="form-control" name="clientType">
+                <option selected>Public</option>
+                <option>Confidential</option>
+              </select>
+              <small id="typeHelp" class="form-text text-muted">Confidential clients are capable of maintaining the confidentiality of their credentials. Public clients are incapable.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="responseType">Response Type</label>
+            <div class="col-sm-9">
+              <select class="form-control" name="responseType" disabled>
+                <option>code (Authorization Code Flow)</option>
+                <option>id_token (Implicit Flow)</option>
+                <option selected>id_token token (Implicit Flow)</option>
+                <option>code token (Hybrid Flow)</option>
+                <option>code id_token (Hybrid Flow)</option>
+                <option>code id_token token (Hybrid Flow)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="redirectURIs">Redirect URIs*</label>
+            <div class="col-sm-9">
+              <textarea type="url" class="form-control" name="redirectURIs" rows="5" required></textarea>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="JWTAlgorithm">JWT Algorithm</label>
+            <div class="col-sm-9">
+              <select class="form-control" name="jwt" disabled>
+                <option>HS256</option>
+                <option selected>RS256</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="email">Contact Email*</label>
+            <div class="col-sm-9">
+              <input type="email" class="form-control" name="email" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="website">Website URL</label>
+            <div class="col-sm-9">
+              <input type="url" class="form-control" name="website">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="terms">Terms URL</label>
+            <div class="col-sm-9">
+              <input type="url" class="form-control" name="terms">
+              <small id="termsHelp" class="form-text text-muted">External reference to the privacy of the client.</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="logo">Logo Image</label>
+            <div class="col-sm-9">
+              <input type="file" class="form-control-file" name="logo">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 control-label" for="logout">Post Logout Redirect URIs</label>
+            <div class="col-sm-9">
+              <textarea class="form-control" name="logout" rows="5"></textarea>
+            </div>
+          </div>
+
+          <div class="col-sm-9 col-sm-offset-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+
+        </form> <!-- /form -->
+      </div> <!-- /container -->
+
     </body>
 </html>

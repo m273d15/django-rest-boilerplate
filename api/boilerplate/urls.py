@@ -26,6 +26,7 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 
 urlpatterns = [
+    url(r'^api/registration/', views.registration, name='registration'),
     url(r'^api/eidopenid/', include('eid_oidc_provider.urls')),
     url(r'^api/openid/', include('oidc_provider.urls', namespace='oidc_provider')),
     url(r'^api/eIdService/', include('eid_service.urls')),
