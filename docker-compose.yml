@@ -8,6 +8,8 @@ services:
     - "8443:443"
     networks:
     - rear_tomcat_api
+    links:
+    - demo
     restart: unless-stopped
 
   demo:
@@ -34,6 +36,7 @@ services:
     - api
     - static
     - tomcat
+    - demo
     mac_address: 06:42:ac:10:00:80
     networks:
       front:
